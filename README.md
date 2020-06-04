@@ -23,3 +23,7 @@
 `filter.sh` - (Using a Bash Script print the files/directories of a directory that have a size greater than that of the average size of the directory)
 
 `insert-sort.sh` - (Use insertion sort to sort a list of numbers that come in as argument)
+
+## Homework 2 `hw_2`:
+
+`bfs.sh` - (Using bash write a Breadth First Search Algorithim and Depth First Search to Create a File Tree of a given breadth and depth)
