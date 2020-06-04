@@ -5,10 +5,10 @@ breadth=$2
 dir=$3
 method=$4
 
+remember=($dir)
 if [ "$method" = "breadth" ]
 then
-	echo "Breadth"
-	remember=($dir)
+	echo "Breadth First Search"
 	for ((i=0;i<depth;i++)); do
 		for b in ${remember[@]}; do
 			unset #{remember[$b]}
@@ -19,8 +19,7 @@ then
 		done
 	done
 else
-	remember=($dir)
-	echo "Depth"
+	echo "Depth First Search"
 	for ((i=0;i<depth;i++)); do
 		for b in ${remember[@]}; do
 			unset #{remember[$b]}
