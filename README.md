@@ -26,4 +26,4 @@
 
 ## Homework 2 `hw_2`:
 
-`bfs.sh` - (Using bash write a Breadth First Search Algorithim and Depth First Search to Create a File Tree of a given breadth and depth)
+`bfs_dfs.sh` - (Using bash write a Breadth First Search Algorithim and Depth First Search to Create a File Tree in a given directory of a given breadth and depth)
