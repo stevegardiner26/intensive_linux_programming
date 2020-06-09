@@ -14,6 +14,11 @@
 
   `myscript.sh` - (Using read in a Bash Script)
 
+
+#### Regular Expressions with `grep`
+
+
+
 ## Homework 1 `hw_1`:
 
 `count.sh` - (Using a Bash Script build a table of counters for the commands under /bin in alphabetical order)
