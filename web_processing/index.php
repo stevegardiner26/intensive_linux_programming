@@ -13,7 +13,8 @@
     if ($conn->connect_error) {
         die("Connection Failed: " . $conn->connect_error);
     }
-    
+
+    // Did not know what table to load in so I just hardcoded it.
     $table_name = "yahoo_2020_07_28_18_44_21";
     
     $sql = "SELECT * FROM $table_name";
