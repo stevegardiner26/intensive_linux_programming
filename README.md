@@ -32,3 +32,11 @@
 ## Homework 2 `hw_2`:
 
 `bfs_dfs.sh` - (Using bash write a Breadth First Search Algorithim and Depth First Search to Create a File Tree in a given directory of a given breadth and depth)
+
+## Web Processing (LAMP Stack)
+
+Use a bash script to download a url using wget 60 times in 1 hour 1 minute apart and run a python script on the file to extract data and insert it into a mySQL database. Then create a web facing php script that lives inside of an apache web server that fetches the data from the database and displays it to the user.
+
+## Multi Core Programming
+
+Using both point to point and collective methods execute a dot product function using multiple cores of the cpu
