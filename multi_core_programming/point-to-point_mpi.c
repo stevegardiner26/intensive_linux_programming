@@ -27,15 +27,29 @@ int main(int argc, char **argv) {
   n = atoi(argv[1]);
   if (n > NELMS) { printf("n=%d > N=%d\n",n,NELMS); exit(1); }
 
+  init_lst(vector_x, n);
+  init_lst(vector_y, n);
+
   MPI_Init(&argc, &argv);
   world = MPI_COMM_WORLD;
   MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &pid);
 
   stime = MPI_Wtime();
-  // ...
-  // ...
-  // ...
+  // For amount of processes to do in each computer size = portion
+  size =  n / nprocs;
+  sidx = pid * size;
+  eidx = sidx + size;
+  prod = dot_product(sidx, eidx, &vector_x, &vector_y);
+  if (pid == MASTER) {
+    // Recieve dot product from all instances
+    for(i = 1; i < nprocs; i++) {
+      MPI_Recv(&tmp_prod, 1, MPI_INT, i, 123, world, &status);
+    }
+  } else {
+    // Send to master
+    MPI_Send(&prod, 1, MPI_INT, MASTER, 123, world);
+  }
   etime = MPI_Wtime();
 
   if (pid == MASTER) {
@@ -45,10 +59,12 @@ int main(int argc, char **argv) {
   MPI_Finalize();
 }
 
-int dot_product(int s,int e){
+int dot_product(int s,int e, int vector_x[NELMS], int vector_y[NELMS]){
   int i,prod=0;
-  // ...
-  // ...
+  for(i = s; i < e; i++) {
+    int temp = vector_x[i] * vector_y[i];
+    prod = prod + temp; 
+  }
   return prod;
 }
 
