@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
     // Recieve dot product from all instances
     for(i = 1; i < nprocs; i++) {
       MPI_Recv(&tmp_prod, 1, MPI_INT, i, 123, world, &status);
+      prod = prod + tmp_prod;
     }
   } else {
     // Send to master
