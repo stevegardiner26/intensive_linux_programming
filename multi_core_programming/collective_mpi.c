@@ -22,7 +22,7 @@ void print_lst();
 
 int main(int argc, char **argv) {
   int i,n,vector_x[NELMS],vector_y[NELMS];
-  int prod,tmp_prod,sidx,eidx,size;
+  int prod,sidx,eidx,size;
   int pid,nprocs, rank;
   double stime,etime;
   MPI_Status status;
@@ -39,21 +39,28 @@ int main(int argc, char **argv) {
   MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &pid);
 
+  int tmp_prod[nprocs];
+
   stime = MPI_Wtime();
   // For amount of processes to do in each computer size = portion
   size =  n / nprocs;
   sidx = pid * size;
   eidx = sidx + size;
+  
+  // Scatter
+  MPI_Scatter(vector_x, size, MPI_INT, vector_x+sidx, size, MPI_INT, MASTER, world);
+  MPI_Scatter(vector_y, size, MPI_INT, vector_y+sidx, size, MPI_INT, MASTER, world);
+  
+  // Compute
   prod = dot_product(sidx, eidx, &vector_x, &vector_y);
-  if (pid == MASTER) {
-    // Recieve dot product from all instances
-    for(i = 1; i < nprocs; i++) {
-      MPI_Recv(&tmp_prod, 1, MPI_INT, i, 123, world, &status);
-    }
-  } else {
-    // Send to master
-    MPI_Send(&prod, 1, MPI_INT, MASTER, 123, world);
+
+  // Gather  
+  MPI_Gather(&prod, 1, MPI_INT, &tmp_prod, 1, MPI_INT, MASTER, world);
+
+  for(i = 1; i < nprocs; i++) {
+      prod = prod + tmp_prod[i];
   }
+
   etime = MPI_Wtime();
 
   if (pid == MASTER) {
@@ -67,7 +74,7 @@ int dot_product(int s,int e, int vector_x[NELMS], int vector_y[NELMS]){
   int i,prod=0;
   for(i = s; i < e; i++) {
     int temp = vector_x[i] * vector_y[i];
-    prod = prod + temp; 
+    prod = prod + temp;
   }
   return prod;
 }
